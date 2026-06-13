@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ryosuke Nakamoto, Ph.D. — AI Research & Advisory</title>
+<meta name="description" content="京都大学博士（情報学）・元 日立製作所中央研究所 主任研究員・現 スタートアップ企業 研究開発部 Researcher。生成AI・LLM・AI Agent・VLM・Physical AI の研修、技術顧問、PoC・プロダクト開発を支援します。" />
+<meta property="og:title" content="Ryosuke Nakamoto, Ph.D. — AI Research & Advisory" />
+<meta property="og:description" content="AIを理解し、AIで事業を創る。研究開発と事業実装の両方からAIを支援します。" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;500;700;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0D17;
+    --bg-2:#0C111E;
+    --surface:#111726;
+    --surface-2:#161D31;
+    --border:rgba(255,255,255,.08);
+    --border-strong:rgba(255,255,255,.16);
+    --ink:#ECF0F8;
+    --muted:#9AA6BE;
+    --muted-2:#69748E;
+    --accent:#5B8CFF;
+    --accent-deep:#3358E6;
+    --accent-soft:rgba(91,140,255,.12);
+    --signal:#F6B45A;
+    --maxw:1180px;
+    --r:14px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --display:"Space Grotesk","Noto Sans JP",sans-serif;
+    --body:"Noto Sans JP",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    font-weight:400;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  /* ---------- eyebrow / labels (mono = research/code texture) ---------- */
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:.72rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+    display:inline-flex;
+    align-items:center;
+    gap:.7em;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;height:7px;
+    background:var(--signal);
+    border-radius:1px;
+    transform:rotate(45deg);
+    flex:none;
+  }
+
+  .section{padding:120px 0;position:relative}
+  .section-head{max-width:760px;margin-bottom:60px}
+  .section-head h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(1.7rem,3.4vw,2.6rem);
+    line-height:1.2;
+    letter-spacing:-.01em;
+    margin-top:18px;
+  }
+  .section-head p{color:var(--muted);margin-top:18px;font-size:1.02rem}
+
+  /* ---------- nav ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    backdrop-filter:blur(14px);
+    background:rgba(10,13,23,.72);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--mono);font-size:.84rem;letter-spacing:.04em}
+  .brand .mark{
+    width:26px;height:26px;border:1px solid var(--border-strong);border-radius:6px;
+    display:grid;place-items:center;flex:none;position:relative;
+    background:linear-gradient(150deg,var(--accent-soft),transparent);
+  }
+  .brand .mark::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+  .brand b{font-weight:600;color:var(--ink)}
+  .brand span{color:var(--muted-2)}
+  .nav-links{display:flex;gap:30px;align-items:center}
+  .nav-links a{font-family:var(--mono);font-size:.78rem;color:var(--muted);letter-spacing:.03em;transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.03em;
+    padding:9px 18px;border:1px solid var(--border-strong);border-radius:999px;color:var(--ink);
+    transition:.25s var(--ease);white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  @media(max-width:860px){.nav-links{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:118px 0 96px;overflow:hidden}
+  #field{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.9}
+  .hero::after{ /* vignette so text stays legible over the field */
+    content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:radial-gradient(120% 90% at 18% 30%,transparent 30%,var(--bg) 86%);
+  }
+  .hero .wrap{position:relative;z-index:2}
+  .hero-grid{display:grid;grid-template-columns:1.35fr .9fr;gap:54px;align-items:end}
+  @media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:40px}}
+
+  .hero h1{
+    font-family:var(--body);
+    font-weight:900;
+    font-size:clamp(2.3rem,6.2vw,4.3rem);
+    line-height:1.12;
+    letter-spacing:-.01em;
+    margin:26px 0 0;
+  }
+  .hero h1 .en{
+    display:block;font-family:var(--display);font-weight:500;
+    font-size:clamp(.92rem,1.8vw,1.15rem);
+    letter-spacing:.04em;color:var(--accent);margin-top:22px;line-height:1.5;
+  }
+  .hero-lead{color:var(--muted);font-size:1.06rem;max-width:560px;margin-top:26px}
+  .hero-lead b{color:var(--ink);font-weight:500}
+
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:38px}
+  .btn{
+    font-family:var(--mono);font-size:.82rem;letter-spacing:.02em;
+    display:inline-flex;align-items:center;gap:10px;
+    padding:15px 26px;border-radius:11px;transition:.25s var(--ease);cursor:pointer;border:1px solid transparent;
+  }
+  .btn .arr{transition:transform .25s var(--ease)}
+  .btn:hover .arr{transform:translateX(4px)}
+  .btn-primary{background:var(--accent);color:#06080f;font-weight:600}
+  .btn-primary:hover{background:#7AA2FF;box-shadow:0 10px 40px -12px var(--accent)}
+  .btn-ghost{border-color:var(--border-strong);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink);background:rgba(255,255,255,.04)}
+
+  /* credibility pillars */
+  .pillars{display:grid;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  .pillar{background:var(--bg-2);padding:24px 24px}
+  .pillar .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;color:var(--muted-2);text-transform:uppercase}
+  .pillar .v{font-weight:700;font-size:1.04rem;margin-top:9px;line-height:1.4}
+  .pillar .v em{font-style:normal;color:var(--accent)}
+  .pillar.now .v::after{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--signal);margin-left:9px;box-shadow:0 0 10px var(--signal);vertical-align:middle}
+
+  /* ---------- problems ---------- */
+  .prob-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  @media(max-width:760px){.prob-grid{grid-template-columns:1fr}}
+  .prob{
+    display:flex;gap:16px;align-items:flex-start;
+    background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+    padding:22px 24px;transition:.25s var(--ease);
+  }
+  .prob:hover{border-color:var(--border-strong);transform:translateY(-2px)}
+  .prob .q{font-family:var(--mono);color:var(--accent);font-size:.95rem;flex:none;margin-top:2px}
+  .prob p{color:var(--muted);font-size:.98rem}
+
+  /* ---------- services ---------- */
+  .svc{
+    border:1px solid var(--border);border-radius:18px;background:var(--surface);
+    padding:38px 36px;margin-bottom:18px;position:relative;overflow:hidden;
+    transition:.3s var(--ease);
+  }
+  .svc:hover{border-color:var(--border-strong)}
+  .svc-top{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap}
+  .svc-no{font-family:var(--mono);font-size:.78rem;color:var(--muted-2);letter-spacing:.16em}
+  .svc h3{font-family:var(--display);font-weight:600;font-size:1.5rem;margin-top:8px;letter-spacing:-.01em}
+  .svc h3 .jp{font-family:var(--body);font-weight:700;display:block;font-size:1.18rem;margin-top:4px}
+  .svc .desc{color:var(--muted);margin-top:16px;max-width:640px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+  .tag{font-family:var(--mono);font-size:.74rem;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:5px 13px}
+  .tag.key{color:var(--accent);border-color:rgba(91,140,255,.4);background:var(--accent-soft)}
+
+  .price-table{margin-top:26px;border-top:1px solid var(--border)}
+  .price-row{display:grid;grid-template-columns:1fr auto;gap:18px;padding:16px 0;border-bottom:1px solid var(--border);align-items:baseline}
+  .price-row .pn{font-weight:500}
+  .price-row .pd{color:var(--muted-2);font-size:.86rem;margin-top:3px}
+  .price-row .pv{font-family:var(--mono);font-size:1.12rem;color:var(--ink);white-space:nowrap}
+  .price-row .pv small{color:var(--muted-2);font-size:.74rem}
+
+  .price-inline{font-family:var(--mono);margin-top:24px;font-size:1.05rem;display:inline-flex;align-items:center;gap:12px;color:var(--ink)}
+  .price-inline .lbl{font-size:.72rem;letter-spacing:.16em;color:var(--muted-2);text-transform:uppercase}
+
+  /* ---------- why / outcomes ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+  @media(max-width:880px){.split{grid-template-columns:1fr;gap:44px}}
+  .compare{border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  .compare .col-h{padding:16px 22px;font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--border)}
+  .compare.muted .col-h{color:var(--muted-2)}
+  .compare.ours{border-color:rgba(91,140,255,.35);background:linear-gradient(180deg,var(--accent-soft),transparent 40%)}
+  .compare.ours .col-h{color:var(--accent)}
+  .compare ul{list-style:none;padding:8px 22px 22px}
+  .compare li{padding:11px 0;border-bottom:1px solid var(--border);color:var(--muted);font-size:.95rem;display:flex;gap:11px}
+  .compare li:last-child{border-bottom:none}
+  .compare li::before{content:"—";color:var(--muted-2);flex:none}
+  .compare.ours li{color:var(--ink)}
+  .compare.ours li::before{content:"↗";color:var(--accent)}
+
+  .outcomes{list-style:none}
+  .outcomes li{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--border);align-items:flex-start}
+  .outcomes li:last-child{border-bottom:none}
+  .outcomes .n{font-family:var(--mono);font-size:.78rem;color:var(--accent);flex:none;margin-top:3px}
+  .outcomes p{color:var(--ink);font-size:1rem}
+
+  /* ---------- engagement path (the one true sequence) ---------- */
+  .path{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  @media(max-width:760px){.path{grid-template-columns:1fr}}
+  .step{padding:30px 26px;position:relative;background:var(--bg-2)}
+  .step + .step{border-left:1px solid var(--border)}
+  @media(max-width:760px){.step + .step{border-left:none;border-top:1px solid var(--border)}}
+  .step .sn{font-family:var(--mono);font-size:.78rem;color:var(--accent);letter-spacing:.1em}
+  .step h4{font-weight:700;font-size:1.08rem;margin:14px 0 8px}
+  .step p{color:var(--muted);font-size:.9rem}
+  .step .conn{position:absolute;right:-7px;top:50%;width:14px;height:14px;color:var(--muted-2);z-index:3}
+  @media(max-width:760px){.step .conn{display:none}}
+  .step:last-child .conn{display:none}
+
+  /* ---------- profile ---------- */
+  .profile-grid{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px}
+  @media(max-width:880px){.profile-grid{grid-template-columns:1fr;gap:40px}}
+  .pname{font-family:var(--display);font-weight:600;font-size:2.1rem;letter-spacing:-.01em}
+  .prole{font-family:var(--mono);color:var(--accent);font-size:.84rem;letter-spacing:.08em;margin-top:6px}
+  .pbio{color:var(--muted);margin-top:24px}
+  .pbio b{color:var(--ink);font-weight:500}
+  .pblock{margin-top:30px}
+  .pblock .h{font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-2);margin-bottom:12px}
+  .pblock ul{list-style:none}
+  .pblock li{padding:8px 0;border-bottom:1px solid var(--border);font-size:.95rem;color:var(--ink)}
+  .pblock li:last-child{border-bottom:none}
+  .pblock li span{color:var(--muted-2);font-family:var(--mono);font-size:.78rem;display:block;margin-top:2px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-family:var(--mono);font-size:.76rem;border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--muted)}
+
+  /* ---------- achievements / publications ---------- */
+  .ach-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+  @media(max-width:760px){.ach-grid{grid-template-columns:1fr 1fr}}
+  .ach{background:var(--bg-2);padding:22px 22px}
+  .ach .t{font-size:.95rem;font-weight:500}
+  .ach .s{font-family:var(--mono);font-size:.72rem;color:var(--muted-2);margin-top:6px;letter-spacing:.04em}
+
+  .pubs{margin-top:34px;list-style:none}
+  .pubs li{padding:18px 0;border-bottom:1px solid var(--border);display:flex;gap:18px}
+  .pubs li .pi{font-family:var(--mono);color:var(--accent);font-size:.8rem;flex:none}
+  .pubs li p{color:var(--ink);font-size:.97rem}
+  .pubs li p span{display:block;color:var(--muted-2);font-size:.82rem;font-family:var(--mono);margin-top:4px}
+
+  /* ---------- contact ---------- */
+  .contact-card{
+    border:1px solid var(--border-strong);border-radius:22px;
+    background:linear-gradient(155deg,var(--surface-2),var(--bg-2));
+    padding:56px 48px;
+  }
+  @media(max-width:680px){.contact-card{padding:38px 26px}}
+  .contact-card h2{font-family:var(--display);font-weight:600;font-size:clamp(1.7rem,3.6vw,2.5rem);letter-spacing:-.01em}
+  .contact-card .lead{color:var(--muted);margin-top:18px;max-width:560px}
+  .inq{display:flex;flex-wrap:wrap;gap:9px;margin:30px 0 34px}
+  .inq button{
+    font-family:var(--body);font-size:.86rem;color:var(--muted);cursor:pointer;
+    background:transparent;border:1px solid var(--border);border-radius:999px;padding:9px 16px;transition:.2s var(--ease);
+  }
+  .inq button:hover,.inq button.on{border-color:var(--accent);color:var(--ink);background:var(--accent-soft)}
+  .mail-line{font-family:var(--mono);font-size:1.04rem;display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+  .mail-line .lbl{font-size:.7rem;letter-spacing:.18em;color:var(--muted-2);text-transform:uppercase}
+  .mail-line a{color:var(--accent);border-bottom:1px solid transparent;transition:.2s}
+  .mail-line a:hover{border-color:var(--accent)}
+  .ext-links{display:flex;gap:22px;flex-wrap:wrap;margin-top:36px;padding-top:30px;border-top:1px solid var(--border)}
+  .ext-links a{font-family:var(--mono);font-size:.82rem;color:var(--muted);display:inline-flex;gap:8px;align-items:center;transition:color .2s}
+  .ext-links a:hover{color:var(--ink)}
+  .ext-links a .arr{color:var(--muted-2)}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--border);padding:44px 0;margin-top:30px}
+  .foot-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+  footer .c{font-family:var(--mono);font-size:.74rem;color:var(--muted-2);letter-spacing:.04em}
+  footer .note{font-size:.74rem;color:var(--muted-2);max-width:520px}
+
+  /* ---------- reveal ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <span class="mark"></span>
+      <span><b>R. Nakamoto</b>&nbsp; <span>AI Research &amp; Advisory</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#services">サービス</a>
+      <a href="#why">研修の特徴</a>
+      <a href="#profile">プロフィール</a>
+      <a href="#publications">研究実績</a>
+    </nav>
+    <a class="nav-cta" href="#contact">相談する</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <canvas id="field"></canvas>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">AI Research · Advisory · Engineering</span>
+        <h1>
+          AIを理解し、<br />AIで事業を創る。
+          <span class="en">From algorithms to products — generative AI, LLMs, agents, and Physical AI.</span>
+        </h1>
+        <p class="hero-lead">
+          京都大学博士（情報学）・元 日立製作所中央研究所 主任研究員・現 <b>スタートアップ企業 研究開発部 Researcher</b> が、
+          生成AI・LLM・AI Agent・VLM・Physical AI の<b>導入・研修・プロダクト開発</b>を支援します。
+          ChatGPT活用にとどまらず、アルゴリズムの理解から事業実装までを一気通貫で。
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact">研修・講演を相談する <span class="arr">→</span></a>
+          <a class="btn btn-ghost" href="#services">AI開発について相談する <span class="arr">→</span></a>
+        </div>
+      </div>
+      <div class="pillars reveal">
+        <div class="pillar">
+          <div class="k">Academic</div>
+          <div class="v">京都大学 <em>博士（情報学）</em></div>
+        </div>
+        <div class="pillar">
+          <div class="k">Previous</div>
+          <div class="v">日立製作所 中央研究所<br />主任研究員</div>
+        </div>
+        <div class="pillar now">
+          <div class="k">Current</div>
+          <div class="v">スタートアップ企業<br>研究開発部 <em>Researcher</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="section" id="problems">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Challenges</span>
+      <h2>こんな課題に対応します</h2>
+      <p>「導入はしたが活用が進まない」——多くの企業がぶつかる壁は、ツールではなく理解と設計にあります。</p>
+    </div>
+    <div class="prob-grid">
+      <div class="prob reveal"><span class="q">01</span><p>生成AIを導入したが、現場で使われていない</p></div>
+      <div class="prob reveal"><span class="q">02</span><p>ChatGPT研修を受けたが、実務に落とし込めていない</p></div>
+      <div class="prob reveal"><span class="q">03</span><p>RAGやAI Agentを作りたいが、何から始めるべきかわからない</p></div>
+      <div class="prob reveal"><span class="q">04</span><p>AIベンダーの提案が妥当か、社内で判断できない</p></div>
+      <div class="prob reveal"><span class="q">05</span><p>社内にAIを理解できる人材を育てたい</p></div>
+      <div class="prob reveal"><span class="q">06</span><p>PoCで終わらせず、実際のプロダクトに繋げたい</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Services</span>
+      <h2>提供サービス</h2>
+      <p>研修・技術顧問・開発・講演。研究開発と事業開発の両方の視点から、必要なフェーズだけでも支援します。</p>
+    </div>
+
+    <!-- 01 研修 -->
+    <article class="svc reveal">
+      <div class="svc-top">
+        <div>
+          <div class="svc-no">SERVICE / 01</div>
+          <h3>AI &amp; LLM Training<span class="jp">生成AI・LLM 研修</span></h3>
+        </div>
+      </div>
+      <p class="desc">ChatGPTの使い方だけで終わらない、企業向けの実践研修。Transformer / Embedding / RAG / Agent の基本原理から理解し、業務活用にとどまらずプロダクト化まで扱います。少人数・ハンズオン形式（10名程度まで推奨、必要に応じて講師2名体制）。</p>
+      <div class="tags">
+        <span class="tag">Transformer</span><span class="tag">Embedding</span><span class="tag">RAG</span><span class="tag">Fine-tuning</span><span class="tag">AI Agent</span><span class="tag">Evaluation</span>
+      </div>
+      <div class="price-table">
+        <div class="price-row"><div><div class="pn">半日研修</div><div class="pd">生成AIの原理理解・業務活用ワーク</div></div><div class="pv">¥500,000 <small>〜</small></div></div>
+        <div class="price-row"><div><div class="pn">1Day 研修</div><div class="pd">原理理解 + ハンズオン + 業務適用設計</div></div><div class="pv">¥800,000 <small>〜</small></div></div>
+        <div class="price-row"><div><div class="pn">3Days Bootcamp</div><div class="pd">AIアプリの企画・開発・発表まで</div></div><div class="pv">¥1,800,000 <small>〜</small></div></div>
+      </div>
+    </article>
+
+    <!-- 02 顧問 -->
+    <article class="svc reveal">
+      <div class="svc-top">
+        <div>
+          <div class="svc-no">SERVICE / 02</div>
+          <h3>Technical Advisory<span class="jp">AI技術顧問・アドバイザリー</span></h3>
+        </div>
+      </div>
+      <p class="desc">経営層・事業責任者・DX部門向けに、AI導入や技術判断を支援します。AI導入戦略、技術ロードマップ策定、RAG / Agent / LLM活用の設計、ベンダー提案のレビュー、PoCテーマの評価、社内AI人材育成まで。</p>
+      <div class="tags">
+        <span class="tag">AI導入戦略</span><span class="tag">技術選定</span><span class="tag">ロードマップ</span><span class="tag">PoC評価</span><span class="tag">ベンダー評価</span><span class="tag">人材育成</span>
+      </div>
+      <div class="price-inline"><span class="lbl">Retainer</span> 月額 ¥200,000 〜 &nbsp;·&nbsp; <span class="lbl">Spot</span> スポット相談 ¥50,000 〜</div>
+    </article>
+
+    <!-- 03 開発 -->
+    <article class="svc reveal">
+      <div class="svc-top">
+        <div>
+          <div class="svc-no">SERVICE / 03</div>
+          <h3>AI Product &amp; PoC<span class="jp">AIアプリ・PoC 開発支援</span></h3>
+        </div>
+      </div>
+      <p class="desc">RAG、AI Agent、LLMアプリ、VLM活用などの開発を支援します。社内ドキュメント検索AI、業務支援チャットボット、LLM評価基盤、マルチモーダルAI、Physical AI / Robotics AI まで対応。</p>
+      <div class="tags">
+        <span class="tag key">RAG</span><span class="tag key">AI Agent</span><span class="tag">LLM評価基盤</span><span class="tag">VLM</span><span class="tag">Multimodal</span><span class="tag">Physical AI</span>
+      </div>
+      <div class="price-inline"><span class="lbl">PoC</span> ¥1,000,000 〜 &nbsp;·&nbsp; <span class="lbl">本格開発</span> 要相談</div>
+    </article>
+
+    <!-- 04 講演 -->
+    <article class="svc reveal">
+      <div class="svc-top">
+        <div>
+          <div class="svc-no">SERVICE / 04</div>
+          <h3>Talks &amp; Seminars<span class="jp">講演・セミナー</span></h3>
+        </div>
+      </div>
+      <p class="desc">経営層・管理職・教育機関・自治体向け。「生成AIはビジネスをどう変えるか」「LLM / AI Agent の最新動向」「RAGと社内AI活用」「Physical AI / ロボティクスAIの未来」「教育とAI」など。</p>
+      <div class="price-inline"><span class="lbl">2 hours</span> ¥100,000 〜 ¥300,000 <span class="lbl" style="margin-left:6px">+ 交通費</span> &nbsp;·&nbsp; <span class="lbl">教育機関</span> 応相談</div>
+    </article>
+  </div>
+</section>
+
+<!-- WHY / OUTCOMES -->
+<section class="section" id="why" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Why it's different</span>
+      <h2>なぜ他の研修と違うのか</h2>
+      <p>一般的な生成AI研修は、操作方法やプロンプト集で終わりがちです。本研修は「なぜ動くのか」まで踏み込み、意思決定できるレベルのAI理解を提供します。</p>
+    </div>
+    <div class="split">
+      <div class="reveal">
+        <div class="compare muted" style="margin-bottom:18px">
+          <div class="col-h">一般的な生成AI研修</div>
+          <ul>
+            <li>ChatGPTの操作方法</li>
+            <li>プロンプト集の配布</li>
+            <li>「便利になります」で終わる</li>
+            <li>事業・プロダクトに繋がらない</li>
+          </ul>
+        </div>
+        <div class="compare ours">
+          <div class="col-h">本研修 / Research-grounded</div>
+          <ul>
+            <li>なぜLLMは文章を生成でき、なぜ間違えるのか</li>
+            <li>RAGは何を解決し、何を解決できないのか</li>
+            <li>AI Agentはどこまで実用的なのか</li>
+            <li>評価・安全性・運用をどう設計するか</li>
+            <li>実際のプロダクトへの落とし込みまで</li>
+          </ul>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">After the program</span>
+        <h2 style="font-family:var(--display);font-weight:600;font-size:1.5rem;margin:16px 0 22px;letter-spacing:-.01em">研修で得られる状態</h2>
+        <ul class="outcomes">
+          <li><span class="n">01</span><p>生成AIの仕組みを自分の言葉で説明できる</p></li>
+          <li><span class="n">02</span><p>生成AIが得意な業務・苦手な業務を判断できる</p></li>
+          <li><span class="n">03</span><p>RAG / Agent / Fine-tuning / Evaluation の違いを理解できる</p></li>
+          <li><span class="n">04</span><p>自社業務にAIをどう組み込むべきか構想できる</p></li>
+          <li><span class="n">05</span><p>簡単なAIアプリの構成を設計できる</p></li>
+          <li><span class="n">06</span><p>AIベンダーや開発会社の提案を評価できる</p></li>
+        </ul>
+        <p style="color:var(--muted);margin-top:22px;font-size:.95rem">研究と実務の両方を経験しているからこそ、流行のツール紹介ではなく、企業が意思決定できるレベルのAI理解を提供します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENGAGEMENT PATH -->
+<section class="section" id="path" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Engagement</span>
+      <h2>ご支援の流れ</h2>
+      <p>単発の研修から、継続的な技術顧問、そして開発まで。必要なフェーズから始め、段階的に深めていけます。</p>
+    </div>
+    <div class="path reveal">
+      <div class="step">
+        <div class="sn">01</div><h4>研修 / Training</h4>
+        <p>まず組織のAIリテラシーを底上げ。原理から実装までを共有します。</p>
+        <svg class="conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="step">
+        <div class="sn">02</div><h4>技術顧問 / Advisory</h4>
+        <p>戦略・技術選定・ベンダー評価を継続的に伴走します。</p>
+        <svg class="conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="step">
+        <div class="sn">03</div><h4>PoC開発 / Proof of Concept</h4>
+        <p>RAGやAgentの試作で、効果と実現性を検証します。</p>
+        <svg class="conn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </div>
+      <div class="step">
+        <div class="sn">04</div><h4>本格開発 / Development</h4>
+        <p>検証を踏まえ、運用に耐えるプロダクトへ。評価・安全性も設計します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROFILE -->
+<section class="section" id="profile" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Profile</span>
+      <h2>研究者として、実装者として。</h2>
+    </div>
+    <div class="profile-grid">
+      <div class="reveal">
+        <div class="pname">Ryosuke Nakamoto, Ph.D.</div>
+        <div class="prole">AI Researcher / Engineer</div>
+        <p class="pbio">
+          京都大学 博士（情報学）。京都大学 学術情報メディアセンター 客員研究員。
+          日立製作所 中央研究所 主任研究員を経て、現在は<b>スタートアップ企業の研究開発部にて Researcher</b> として、
+          AI Agent・Physical AI を中心に研究に従事。
+          生成AI、LLM、Vision Language Model、AI Agent、Learning Analytics、Physical AI を専門とし、
+          研究開発・企業向けAI活用・AIプロダクト開発・大学教育に携わっています。
+        </p>
+        <div class="pblock">
+          <div class="h">Affiliation</div>
+          <ul>
+            <li>スタートアップ企業 研究開発部 Researcher<span>AI Agent / Physical AI 研究</span></li>
+            <li>京都大学 学術情報メディアセンター 客員研究員</li>
+            <li>大阪国際工科専門職大学 非常勤講師</li>
+          </ul>
+        </div>
+        <div class="pblock">
+          <div class="h">Education / Previous</div>
+          <ul>
+            <li>京都大学 大学院情報学研究科 博士後期課程 修了<span>博士（情報学）</span></li>
+            <li>日立製作所 中央研究所 主任研究員<span>Previous</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="pblock" style="margin-top:0">
+          <div class="h">Expertise</div>
+          <div class="chips">
+            <span class="chip">Large Language Models</span><span class="chip">Generative AI</span>
+            <span class="chip">AI Agent</span><span class="chip">Retrieval-Augmented Generation</span>
+            <span class="chip">Vision Language Model</span><span class="chip">Computer Vision</span>
+            <span class="chip">Physical AI</span><span class="chip">Robotics AI</span>
+            <span class="chip">Learning Analytics</span><span class="chip">AI Product Development</span>
+          </div>
+        </div>
+        <div class="pblock">
+          <div class="h">Research Keywords</div>
+          <div class="chips">
+            <span class="chip">日本語特化LLM</span><span class="chip">Vision Language Model</span>
+            <span class="chip">Computer Vision</span><span class="chip">Learning Analytics</span>
+            <span class="chip">外観検査AI</span>
+          </div>
+        </div>
+        <div class="pblock">
+          <div class="h">Achievements</div>
+          <div class="ach-grid">
+            <div class="ach"><div class="t">博士（情報学）</div><div class="s">Kyoto University</div></div>
+            <div class="ach"><div class="t">主任研究員</div><div class="s">Hitachi Central Lab</div></div>
+            <div class="ach"><div class="t">Researcher</div><div class="s">AI Startup R&amp;D</div></div>
+            <div class="ach"><div class="t">査読付き論文</div><div class="s">Peer-reviewed</div></div>
+            <div class="ach"><div class="t">特許保有</div><div class="s">Patents</div></div>
+            <div class="ach"><div class="t">大学講師経験</div><div class="s">Teaching</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section class="section" id="publications" style="padding-top:40px">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Selected Publications</span>
+      <h2>主な論文・研究</h2>
+      <p>査読付き論文・国際会議論文多数。詳細は researchmap をご参照ください。</p>
+    </div>
+    <ul class="pubs reveal">
+      <li><span class="pi">[1]</span><p>Integrating self-explanation and operational data for impasse detection in mathematical learning.<span>Learning Analytics / Education</span></p></li>
+      <li><span class="pi">[2]</span><p>Unsupervised techniques for generating a standard sample self-explanation answer with knowledge components in a math quiz.<span>NLP / Learning Analytics</span></p></li>
+      <li><span class="pi">[3]</span><p>Can Visual Encoder Learn to See Arrows?<span>Vision Language Model / Computer Vision</span></p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section" id="contact" style="padding-top:40px">
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <span class="eyebrow">Contact</span>
+      <h2 style="margin-top:18px">お気軽にご相談ください</h2>
+      <p class="lead">企業研修、講演、AI技術顧問、PoC開発、AIプロダクト開発支援について承ります。下記から相談内容を選ぶと、件名を添えてメールが開きます。</p>
+
+      <div class="inq" id="inq">
+        <button data-s="生成AI研修の実施について">生成AI研修</button>
+        <button data-s="社内向けAIハンズオンの設計について">AIハンズオン設計</button>
+        <button data-s="RAG / AI Agent 開発について">RAG / AI Agent 開発</button>
+        <button data-s="AI開発の相談について">AI開発の相談</button>
+        <button data-s="講演のご依頼について">講演依頼</button>
+        <button data-s="AI技術顧問のご依頼について">技術顧問</button>
+      </div>
+
+      <a class="btn btn-primary" id="mailBtn" href="mailto:s0527225@gmail.com?subject=%E3%81%8A%E5%95%8F%E3%81%84%E5%90%88%E3%82%8F%E3%81%9B">メールで問い合わせる <span class="arr">→</span></a>
+
+      <div class="mail-line" style="margin-top:22px">
+        <span class="lbl">Email</span>
+        <a href="mailto:s0527225@gmail.com">s0527225@gmail.com</a>
+      </div>
+
+      <div class="ext-links">
+        <a href="https://researchmap.jp/" target="_blank" rel="noopener">researchmap <span class="arr">↗</span></a>
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub <span class="arr">↗</span></a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn <span class="arr">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap foot-inner">
+    <div class="c">© 2026 Ryosuke Nakamoto · AI Research &amp; Advisory</div>
+    <div class="note">本サイトは個人事業としてのAI研究・技術支援に関する案内です。記載の料金は目安であり、内容・規模により個別にお見積りします。</div>
+  </div>
+</footer>
+
+<script>
+/* ---------- embedding-field signature (hero) ---------- */
+(function(){
+  const c = document.getElementById('field');
+  if(!c) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const ctx = c.getContext('2d');
+  let w,h,dpr,pts=[],clusters=[];
+  const COLOR = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#5B8CFF';
+
+  function size(){
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    const r = c.parentElement.getBoundingClientRect();
+    w = r.width; h = r.height;
+    c.width = w*dpr; c.height = h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    build();
+  }
+  function build(){
+    // a few cluster centers -> reads like a latent-space projection, not random noise
+    const ncl = w < 700 ? 4 : 6;
+    clusters = [];
+    for(let i=0;i<ncl;i++){
+      clusters.push({x:Math.random()*w, y:Math.random()*h, n: 6+Math.floor(Math.random()*8)});
+    }
+    pts = [];
+    clusters.forEach(cl=>{
+      for(let i=0;i<cl.n;i++){
+        const a = Math.random()*Math.PI*2;
+        const rad = Math.random()*70+8;
+        pts.push({
+          cl, bx: cl.x+Math.cos(a)*rad, by: cl.y+Math.sin(a)*rad,
+          x:0,y:0, ph:Math.random()*Math.PI*2, sp:.0004+Math.random()*.0006, amp:6+Math.random()*10,
+          r: Math.random()*1.6+.8
+        });
+      }
+    });
+  }
+  function frame(t){
+    ctx.clearRect(0,0,w,h);
+    // positions
+    pts.forEach(p=>{
+      const off = reduce?0:Math.sin(t*p.sp + p.ph)*p.amp;
+      p.x = p.bx + off; p.y = p.by + Math.cos(t*p.sp*.8 + p.ph)*(reduce?0:p.amp*.6);
+    });
+    // intra-cluster hairlines
+    ctx.lineWidth = 1;
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        if(pts[i].cl!==pts[j].cl) continue;
+        const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y;
+        const d=Math.hypot(dx,dy);
+        if(d<90){
+          ctx.strokeStyle = `rgba(91,140,255,${0.14*(1-d/90)})`;
+          ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.stroke();
+        }
+      }
+    }
+    // nodes
+    pts.forEach(p=>{
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(91,140,255,${.5})`;
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    });
+    if(!reduce) raf = requestAnimationFrame(frame);
+  }
+  let raf;
+  size();
+  window.addEventListener('resize', ()=>{cancelAnimationFrame(raf); size(); if(!reduce) raf=requestAnimationFrame(frame); else frame(0);});
+  if(reduce){ frame(0); } else { raf = requestAnimationFrame(frame); }
+})();
+
+/* ---------- scroll reveal ---------- */
+(function(){
+  const els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){els.forEach(e=>e.classList.add('in'));return;}
+  const io = new IntersectionObserver((ents)=>{
+    ents.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+  els.forEach(e=>io.observe(e));
+})();
+
+/* ---------- contact: build mailto from selected inquiry ---------- */
+(function(){
+  const inq = document.getElementById('inq');
+  const btn = document.getElementById('mailBtn');
+  const EMAIL = 's0527225@gmail.com';
+  if(!inq||!btn) return;
+  function setMail(subjectText){
+    const subject = encodeURIComponent(subjectText || 'お問い合わせ');
+    const body = encodeURIComponent(
+      'お世話になっております。\n\n下記についてご相談させていただきたく、ご連絡いたしました。\n\n'+
+      '【ご相談内容】'+(subjectText||'')+'\n'+
+      '【会社・団体名】\n'+
+      '【ご希望時期・規模】\n'+
+      '【ご予算（任意）】\n\n'+
+      'どうぞよろしくお願いいたします。'
+    );
+    btn.setAttribute('href', `mailto:${EMAIL}?subject=${subject}&body=${body}`);
+  }
+  inq.addEventListener('click', e=>{
+    const b = e.target.closest('button'); if(!b) return;
+    inq.querySelectorAll('button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    setMail('【'+b.textContent.trim()+'】 '+ (b.dataset.s||''));
+  });
+})();
+</script>
+</body>
+</html>
